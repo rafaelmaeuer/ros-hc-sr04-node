@@ -11,7 +11,7 @@ namespace hc_sr04_node {
 
 // Maximum distance reported. Values over this distance
 // report MAX_DISTANCE. TODO make this a property.
-const static float MAX_DISTANCE = 30;
+const static float MAX_DISTANCE = 400;
 const static float DIST_SCALE = 58.0;
 const static float TRAVEL_TIME_MAX = MAX_DISTANCE * DIST_SCALE;
 
@@ -36,8 +36,8 @@ class Sonar {
     int bail = 1000;
     while(digitalRead(echo_) == LOW) {
       if (--bail == 0) {
-	*error = true;
-	return 0;
+        *error = true;
+        return 0;
       }
     }
 
@@ -50,15 +50,15 @@ class Sonar {
     while(digitalRead(echo_) == HIGH) {
       travelTime = micros() - startTime;
       if (travelTime > TRAVEL_TIME_MAX) {
-	travelTime = TRAVEL_TIME_MAX;
-	break;
+        travelTime = TRAVEL_TIME_MAX;
+        break;
       }
       delayMicroseconds(100);
     }
     
-    // Return distance in cm
-    *error = false;    
-    return travelTime / 58.0;
+    // Return distance in m
+    *error = false;
+    return (travelTime / 58.0) / 100.0;
   }
  
 private:
@@ -77,12 +77,11 @@ int main(int argc, char **argv) {
   ros::Rate rate(10);  // 10 hz
 
   // Build N sonars.
-  wiringPiSetupSys();  // uses gpio pin numbering
+  wiringPiSetupSys();  // uses GPIO pin numbering
   // TODO: config these
   vector<hc_sr04_node::Sonar> sonars;
-  sonars.push_back(hc_sr04_node::Sonar(24, 25));
-  sonars.push_back(hc_sr04_node::Sonar(22, 23));
-  sonars.push_back(hc_sr04_node::Sonar(18, 27));
+  sonars.push_back(hc_sr04_node::Sonar(16, 18));
+  sonars.push_back(hc_sr04_node::Sonar(22, 24));
 
   // Build a publisher for each sonar.
   vector<ros::Publisher> sonar_pubs;
@@ -101,14 +100,14 @@ int main(int argc, char **argv) {
  
   float distance;
   bool error;
-  while(ros::ok()) {    
+  while(ros::ok()) {
     for (int i = 0; i < sonars.size(); ++i) {
       range.header.stamp = ros::Time::now();
       range.range = sonars[i].distance(&error);
       if (error)
-	ROS_WARN("Error on sonar %d", i);
+        ROS_WARN("Error on sonar %d", i);
       else
-	sonar_pubs[i].publish(range);
+        sonar_pubs[i].publish(range);
     }
     ros::spinOnce();
     rate.sleep();    

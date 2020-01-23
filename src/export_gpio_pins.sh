@@ -6,21 +6,19 @@
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: exports gpio pins for 3 sonars.
-# Description:       exports gpio pins for 3 sonars.
+# Short-Description: exports gpio pins for 2 sonars.
+# Description:       exports gpio pins for 2 sonars.
 ### END INIT INFO
 
 case "$1" in
     start)
-	# to run as non run using wiringPiSetupSys we
-	# need to export the gpio pins.
+	# to run as non root using wiringPiSetupSys we
+	# need to export the gpio pins (BCM pin numbering).
 	# see http://wiringpi.com/reference/setup/
-	gpio export 24 out
-	gpio export 25 in
-	gpio export 22 out
-	gpio export 23 in
-	gpio export 18 out
-	gpio export 27 in
+	gpio export 1 out
+	gpio export 67 in
+	gpio export 200 out
+	gpio export 201 in
 	;;
     stop)
 	gpio unexportall
