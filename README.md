@@ -8,10 +8,10 @@ We include a node for a set of sonars, rather than a node per sonar, since we ne
 
 On Raspberry Pi 2 uses ~2% cpu and <1% mem for 3 sonars (capping at a distance of 20cm).
 
-REQUIRES running `src/export_gpio_pins.sh start` to export pins otherwise need to run as root (limitation of `wiringPiSetupSys`).
+REQUIRES running `src/export_gpio_pins.sh start` to export pins otherwise need to run as root (limitation of `wiringPiSetupSys`). Run `src/export_gpio_pins.sh stop` to remove all `/sys/class/gpio` exports.
 
 🚨PIN NUMBERING 🚨  
-Pins in `export_gpio_pins.sh` need to be defined in BCM pin layout.   
+Pins in `export_gpio_pins.sh` need to be defined in BCM pin layout.  
 Pins in `hc_sr04_node.cpp` need to be defined in GPIO pin layout.
 
 ```
