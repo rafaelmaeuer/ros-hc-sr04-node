@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(hc_sr04)
 
+add_definitions(-lwiringPi)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -137,6 +139,8 @@ add_executable(hc_sr04_node src/hc_sr04_node.cpp)
 target_link_libraries(hc_sr04_node
   ${catkin_LIBRARIES}
   wiringPi
+  -lcrypt
+  -lrt
 )
 
 #############
