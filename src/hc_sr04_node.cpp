@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
   ros::Rate rate(10);  // 10 hz
 
   // Build N sonars.
-  wiringPiSetupSys();  // uses GPIO pin numbering
+  wiringPiSetupSys();  // uses Physical pin numbering
   // TODO: config these
   vector<hc_sr04_node::Sonar> sonars;
   sonars.push_back(hc_sr04_node::Sonar(16, 18));

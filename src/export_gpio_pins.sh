@@ -15,10 +15,10 @@ case "$1" in
 	# to run as non root using wiringPiSetupSys we
 	# need to export the gpio pins (BCM pin numbering).
 	# see http://wiringpi.com/reference/setup/
-	gpio export 1 out
-	gpio export 67 in
-	gpio export 200 out
-	gpio export 201 in
+	gpio export 200 out # pin 16
+	gpio export 201 in	# pin 18
+	gpio export 1 out	# pin 22
+	gpio export 67 in	# pin 24
 	;;
     stop)
 	gpio unexportall
